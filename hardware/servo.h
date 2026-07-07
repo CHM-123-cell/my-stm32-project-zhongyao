@@ -6,6 +6,6 @@
 #define __SERVO_H
 #include "stm32f10x.h"
 void Servo_Init(void);
-void Servo_Up(uint8_t deg);   /* 0°=开 90°=闭 */
+void Servo_Up(uint8_t deg);   /* 90°=开 180°=闭 */
 void Servo_Lo(uint8_t deg);
 #endif

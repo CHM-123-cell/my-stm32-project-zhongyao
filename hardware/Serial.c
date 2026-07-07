@@ -180,8 +180,8 @@ void USART1_IRQHandler(void)
 			}
 			else						//接收到了正常的数据
 			{
-				Serial_RxPacket[pRxPacket] = RxData;		//将数据存入数据包数组的指定位置
-				pRxPacket ++;			//数据包的位置自增
+				if (pRxPacket < 99) Serial_RxPacket[pRxPacket] = RxData;		//防止超长/脏数据帧越界写内存(HardFault)
+				if (pRxPacket < 99) pRxPacket ++;			//数据包的位置自增(满99则丢弃, 等\r\n重新成帧)
 			}
 		}
 		/*当前状态为2，接收数据包第二个包尾*/

@@ -9,10 +9,6 @@
 
 #include "stm32f10x.h"
 
-void TIM2_PWM_Init(void);
-void SERVO_Upper_SetAngle(uint8_t angle);
-void SERVO_Lower_SetAngle(uint8_t angle);
-
 void Delay_ms(uint32_t ms);
 uint32_t SysTick_GetTick(void);
 

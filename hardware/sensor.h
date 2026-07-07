@@ -1,6 +1,6 @@
 /**
  * 光电传感器 — PB0=上(EXTI0) PB1=下(EXTI1), 下降沿触发
- * 80ms硬件消抖, 直接读取: extern volatile uint16_t Sensor_Up, Sensor_Lo
+ * 下降沿触发 + 软件消抖(200ms), 直接读取: extern volatile uint16_t Sensor_Up, Sensor_Lo
  */
 #ifndef __SENSOR_H
 #define __SENSOR_H

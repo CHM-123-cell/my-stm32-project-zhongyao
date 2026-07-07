@@ -4,6 +4,8 @@
 #include "sensor.h"
 #include "timer.h"  /* g_sys_tick */
 
+#define SENSOR_DEBOUNCE_MS 200   /* 计数消抖窗口(ms): 防抖动误计; 按药袋下落节拍标定 */
+
 volatile uint16_t Sensor_Up=0, Sensor_Lo=0;
 static volatile uint32_t dbU=0, dbL=0;
 
@@ -21,10 +23,10 @@ void Sensor_Init(void){
 }
 
 void EXTI0_IRQHandler(void){
-    if((EXTI->PR & EXTI_Line0) && g_sys_tick>dbU){EXTI->PR=EXTI_Line0;dbU=g_sys_tick+200;Sensor_Up++;}
+    if((EXTI->PR & EXTI_Line0) && g_sys_tick>dbU){EXTI->PR=EXTI_Line0;dbU=g_sys_tick+SENSOR_DEBOUNCE_MS;Sensor_Up++;}
     else EXTI->PR=EXTI_Line0;
 }
 void EXTI1_IRQHandler(void){
-    if((EXTI->PR & EXTI_Line1) && g_sys_tick>dbL){EXTI->PR=EXTI_Line1;dbL=g_sys_tick+200;Sensor_Lo++;}
+    if((EXTI->PR & EXTI_Line1) && g_sys_tick>dbL){EXTI->PR=EXTI_Line1;dbL=g_sys_tick+SENSOR_DEBOUNCE_MS;Sensor_Lo++;}
     else EXTI->PR=EXTI_Line1;
 }

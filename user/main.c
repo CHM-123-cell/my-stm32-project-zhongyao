@@ -24,11 +24,11 @@ static void parse(void){
     uint8_t i,d;uint16_t v;char*p=Serial_RxPacket;
     if(p[0]=='@')p++;if(!p[0])return;
     switch(p[0]){
-    case'?':Serial_Printf("T:%d D:%d T:%d U:%d L:%d S:%d\r\n",tg,dm,cm,Sensor_Up,Sensor_Lo,st);return;
-    case'D':case'd':v=(uint16_t)ai(&p[1]);if(v>=100&&v<=10000){dm=v;Serial_Printf("D=%d\r\n",v);}else Serial_Printf("ERR\r\n");return;
-    case'T':case't':v=(uint16_t)ai(&p[1]);if(v>=500&&v<=60000){cm=v;Serial_Printf("T=%d\r\n",v);}else Serial_Printf("ERR\r\n");return;
+    case'?':od=1;Serial_Printf("TGT:%d DM:%d TO:%d UP:%d LO:%d ST:%d\r\n",tg,dm,cm,Sensor_Up,Sensor_Lo,st);return;
+    case'D':case'd':v=(uint16_t)ai(&p[1]);if(v>=100&&v<=10000){dm=v;od=1;Serial_Printf("D=%d\r\n",v);}else Serial_Printf("ERR\r\n");return;
+    case'T':case't':v=(uint16_t)ai(&p[1]);if(v>=500&&v<=60000){cm=v;od=1;Serial_Printf("T=%d\r\n",v);}else Serial_Printf("ERR\r\n");return;
     case'S':case's':if(!tg)Serial_Printf("TGT=0\r\n");else if(st!=IDLE)Serial_Printf("BUSY\r\n");else run=1;return;
-    case'R':case'r':Servo_Up(180);Servo_Lo(180);Sensor_Up=0;Sensor_Lo=0;tg=0;run=0;st=IDLE;bad=0;od=1;Serial_Printf("[STOP]\r\n");return;
+    case'R':case'r':Servo_Up(180);Servo_Lo(180);Sensor_Up=0;Sensor_Lo=0;tg=0;run=0;st=IDLE;bad=0;blk=0;t0=0;to=0;tl=0;od=1;Serial_Printf("[STOP]\r\n");return;
     }d=1;for(i=0;p[i];i++)if(p[i]<'0'||p[i]>'9'){d=0;break;}
     if(d){v=(uint16_t)ai(p);if(v){tg=v;Serial_Printf("TGT=%d\r\n",v);}}else Serial_Printf("?:%s\r\n",p);
 }
