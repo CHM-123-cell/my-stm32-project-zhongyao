@@ -1,10 +1,11 @@
 /**
- * 光电传感器 — EXTI下降沿 + 80ms消抖
+ * 光电传感器 — EXTI下降沿 + 60ms消抖
  */
 #include "sensor.h"
 #include "timer.h"  /* g_sys_tick */
 
-#define SENSOR_DEBOUNCE_MS 200   /* 计数消抖窗口(ms): 防抖动误计; 按药袋下落节拍标定 */
+#define SENSOR_DEBOUNCE_MS 60    /* 计数消抖窗口(ms): 防振铃误计; 按药袋下落节拍标定.
+                                     下限勿<20ms(单次遮挡振铃), 上限勿>药袋最小间隔(否则漏计) */
 
 volatile uint16_t Sensor_Up=0, Sensor_Lo=0;
 static volatile uint32_t dbU=0, dbL=0;
